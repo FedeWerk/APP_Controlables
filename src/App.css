@@ -2,3 +2,87 @@
 body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: #1a1a1a; -webkit-font-smoothing: antialiased; }
 input, select, button, textarea { font-family: inherit; }
 a { color: inherit; }
+
+.app-shell {
+  min-height: 100vh;
+  background: #f8f7f4;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-body {
+  flex: 1;
+  display: flex;
+}
+
+.app-sidebar {
+  display: none;
+}
+
+.app-main {
+  flex: 1;
+  padding: 1.5rem 1rem;
+  max-width: 680px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.bottom-nav {
+  position: sticky;
+  bottom: 0;
+  background: #fff;
+  border-top: 0.5px solid #e0ddd4;
+  display: flex;
+  justify-content: space-around;
+  padding: 8px 0 12px;
+}
+
+@media (min-width: 768px) {
+  .app-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 220px;
+    min-width: 220px;
+    background: #fff;
+    border-right: 0.5px solid #e0ddd4;
+    padding: 1.25rem 0.75rem;
+    position: sticky;
+    top: 52px;
+    height: calc(100vh - 52px);
+    overflow-y: auto;
+  }
+
+  .app-main {
+    max-width: none;
+    margin: 0;
+    padding: 2rem;
+  }
+
+  .bottom-nav {
+    display: none;
+  }
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  text-decoration: none;
+  color: #73726c;
+  font-weight: 400;
+  transition: background 0.15s;
+}
+
+.sidebar-link:hover {
+  background: #f8f7f4;
+}
+
+.sidebar-link.active {
+  color: #DA291C;
+  font-weight: 500;
+  background: #fff0ef;
+}

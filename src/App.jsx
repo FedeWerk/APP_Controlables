@@ -28,7 +28,7 @@ function Layout() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f8f7f4' }}>
+    <div className="app-shell">
       <header style={{ background: '#DA291C', color: '#fff', padding: '0 1rem', display: 'flex', alignItems: 'center', gap: 12, height: 52, position: 'sticky', top: 0, zIndex: 100 }}>
         <span style={{ fontSize: 20 }}>🍟</span>
         <span style={{ fontWeight: 500, fontSize: 15, flex: 1 }}>IC VCP</span>
@@ -43,16 +43,37 @@ function Layout() {
         </button>
       </header>
 
-      <main style={{ padding: '1.5rem 1rem', maxWidth: 680, margin: '0 auto' }}>
-        <Routes>
-          <Route path="/" element={<Leaderboard />} />
-          {puedeCargarTurno && <Route path="/turno" element={<CargarTurno />} />}
-          {puedeSubirPDF && <Route path="/horarios" element={<SubirHorarios />} />}
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </main>
+      <div className="app-body">
+        <aside className="app-sidebar">
+          <NavLink to="/" end className={({ isActive }) => `sidebar-link${isActive ? ' active' : ''}`}>
+            <span style={{ fontSize: 20 }}>🏆</span>
+            <span>Ranking</span>
+          </NavLink>
+          {puedeCargarTurno && (
+            <NavLink to="/turno" className={({ isActive }) => `sidebar-link${isActive ? ' active' : ''}`}>
+              <span style={{ fontSize: 20 }}>📝</span>
+              <span>Cargar turno</span>
+            </NavLink>
+          )}
+          {puedeSubirPDF && (
+            <NavLink to="/horarios" className={({ isActive }) => `sidebar-link${isActive ? ' active' : ''}`}>
+              <span style={{ fontSize: 20 }}>📅</span>
+              <span>Horarios</span>
+            </NavLink>
+          )}
+        </aside>
 
-      <nav style={{ position: 'sticky', bottom: 0, background: '#fff', borderTop: '0.5px solid #e0ddd4', display: 'flex', justifyContent: 'space-around', padding: '8px 0 12px' }}>
+        <main className="app-main">
+          <Routes>
+            <Route path="/" element={<Leaderboard />} />
+            {puedeCargarTurno && <Route path="/turno" element={<CargarTurno />} />}
+            {puedeSubirPDF && <Route path="/horarios" element={<SubirHorarios />} />}
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </main>
+      </div>
+
+      <nav className="bottom-nav">
         <NavLink to="/" end style={({ isActive }) => navStyle(isActive)}>
           <span style={{ fontSize: 20 }}>🏆</span>
           <span>Ranking</span>
