@@ -1,52 +1,31 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 
 export default function AuthCallback() {
   const navigate = useNavigate()
+  const [status, setStatus] = useState('Procesando...')
 
   useEffect(() => {
-    // Supabase maneja el hash automáticamente al llamar getSession
-    const handleCallback = async () => {
-      try {
-        // Extraer tokens del hash de la URL si existen
-        const hashParams = new URLSearchParams(window.location.hash.substring(1))
-        const accessToken = hashParams.get('access_token')
-        const refreshToken = hashParams.get('refresh_token')
-
-        if (accessToken && refreshToken) {
-          const { data, error } = await supabase.auth.setSession({
-            access_token: accessToken,
-            refresh_token: refreshToken,
-          })
-          if (error) throw error
-          if (data.session) {
-            navigate('/', { replace: true })
-            return
-          }
-        }
-
-        // Si no hay hash, verificar sesión existente
-        const { data: { session } } = await supabase.auth.getSession()
-        if (session) {
-          navigate('/', { replace: true })
-        } else {
-          navigate('/login', { replace: true })
-        }
-      } catch (err) {
-        console.error('Auth callback error:', err)
-        navigate('/login', { replace: true })
+    supabase.auth.onAuthStateChange((event, session) => {
+      setStatus('Evento: ' + event)
+      if (event === 'SIGNED_IN' && session) {
+        setTimeout(() => navigate('/', { replace: true }), 500)
+      } else if (event === 'SIGNED_OUT' || !session) {
+        setTimeout(() => navigate('/login', { replace: true }), 2000)
       }
-    }
-
-    handleCallback()
+    })
   }, [])
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f8f7f4' }}>
-      <div style={{ textAlign: 'center' }}>
-        <div style={{ fontSize: 32, marginBottom: 8 }}>🍟</div>
-        <div style={{ fontSize: 13, color: '#73726c' }}>Ingresando con Google...</div>
+      <div style={{ textAlign: 'center', padding: '2rem' }}>
+        <div style={{ fontSize: 32, marginBottom: 12 }}>🍟</div>
+        <div style={{ fontSize: 14, color: '#1a1a1a', marginBottom: 8 }}>Verificando sesión...</div>
+        <div style={{ fontSize: 12, color: '#73726c' }}>{status}</div>
+        <div style={{ fontSize: 11, color: '#aaa', marginTop: 8, wordBreak: 'break-all', maxWidth: 400 }}>
+          URL: {window.location.href.substring(0, 100)}
+        </div>
       </div>
     </div>
   )
