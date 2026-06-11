@@ -4,11 +4,13 @@ import Login from './pages/Login'
 import CargarTurno from './pages/CargarTurno'
 import Leaderboard from './pages/Leaderboard'
 import SubirHorarios from './pages/SubirHorarios'
+import IndicadoresMensuales from './pages/IndicadoresMensuales'
+import Reportes from './pages/Reportes'
 import AuthCallback from './pages/AuthCallback'
 import './App.css'
 
 function Layout() {
-  const { usuario, logout, alertas, puedeCargarTurno, puedeSubirPDF } = useAuth()
+  const { usuario, logout, alertas, puedeCargarTurno, puedeSubirPDF, puedeVerReportes } = useAuth()
 
   if (!usuario) return <Navigate to="/login" replace />
 
@@ -61,6 +63,18 @@ function Layout() {
               <span>Horarios</span>
             </NavLink>
           )}
+          {puedeVerReportes && (
+            <NavLink to="/indicadores" className={({ isActive }) => `sidebar-link${isActive ? ' active' : ''}`}>
+              <span style={{ fontSize: 20 }}>📊</span>
+              <span>Indicadores</span>
+            </NavLink>
+          )}
+          {puedeVerReportes && (
+            <NavLink to="/reportes" className={({ isActive }) => `sidebar-link${isActive ? ' active' : ''}`}>
+              <span style={{ fontSize: 20 }}>📈</span>
+              <span>Reportes</span>
+            </NavLink>
+          )}
         </aside>
 
         <main className="app-main">
@@ -68,6 +82,8 @@ function Layout() {
             <Route path="/" element={<Leaderboard />} />
             {puedeCargarTurno && <Route path="/turno" element={<CargarTurno />} />}
             {puedeSubirPDF && <Route path="/horarios" element={<SubirHorarios />} />}
+            {puedeVerReportes && <Route path="/indicadores" element={<IndicadoresMensuales />} />}
+            {puedeVerReportes && <Route path="/reportes" element={<Reportes />} />}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </main>
@@ -88,6 +104,18 @@ function Layout() {
           <NavLink to="/horarios" style={({ isActive }) => navStyle(isActive)}>
             <span style={{ fontSize: 20 }}>📅</span>
             <span>Horarios</span>
+          </NavLink>
+        )}
+        {puedeVerReportes && (
+          <NavLink to="/indicadores" style={({ isActive }) => navStyle(isActive)}>
+            <span style={{ fontSize: 20 }}>📊</span>
+            <span>Indicad.</span>
+          </NavLink>
+        )}
+        {puedeVerReportes && (
+          <NavLink to="/reportes" style={({ isActive }) => navStyle(isActive)}>
+            <span style={{ fontSize: 20 }}>📈</span>
+            <span>Reportes</span>
           </NavLink>
         )}
       </nav>

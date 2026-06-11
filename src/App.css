@@ -86,3 +86,18 @@ a { color: inherit; }
   font-weight: 500;
   background: #fff0ef;
 }
+
+/* Impresión de reportes (export a PDF del navegador) */
+@media print {
+  header, .app-sidebar, .bottom-nav, .no-print {
+    display: none !important;
+  }
+  .app-shell, .app-main {
+    background: #fff;
+    padding: 0;
+    max-width: none;
+  }
+  .reporte-print {
+    max-width: none !important;
+  }
+}

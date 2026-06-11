@@ -1,6 +1,11 @@
 {
   "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/$1" },
     { "source": "/auth/callback", "destination": "/auth/callback" },
     { "source": "/(.*)", "destination": "/" }
+  ],
+  "crons": [
+    { "path": "/api/verificar-horario", "schedule": "0 12 * * 5" },
+    { "path": "/api/activar-horario", "schedule": "5 3 * * 1" }
   ]
 }
