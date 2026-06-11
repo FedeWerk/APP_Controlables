@@ -4,6 +4,7 @@ import Login from './pages/Login'
 import CargarTurno from './pages/CargarTurno'
 import Leaderboard from './pages/Leaderboard'
 import SubirHorarios from './pages/SubirHorarios'
+import AuthCallback from './pages/AuthCallback'
 import './App.css'
 
 function Layout() {
@@ -11,14 +12,13 @@ function Layout() {
 
   if (!usuario) return <Navigate to="/login" replace />
 
-  // Usuario autenticado pero sin rol asignado aún
   if (!usuario.rol) {
     return (
       <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f8f7f4' }}>
         <div style={{ textAlign: 'center', padding: '2rem' }}>
           <div style={{ fontSize: 32, marginBottom: 12 }}>⏳</div>
           <div style={{ fontSize: 16, fontWeight: 500, marginBottom: 8 }}>Verificando acceso...</div>
-          <div style={{ fontSize: 13, color: '#73726c' }}>Tu cuenta está siendo configurada. Contactá al gerente si el problema persiste.</div>
+          <div style={{ fontSize: 13, color: '#73726c' }}>Contactá al gerente si el problema persiste.</div>
           <button onClick={logout} style={{ marginTop: '1.5rem', padding: '8px 16px', border: '0.5px solid #ccc', borderRadius: 8, background: 'transparent', cursor: 'pointer', fontSize: 13, fontFamily: 'inherit' }}>
             Cerrar sesión
           </button>
@@ -80,20 +80,28 @@ const navStyle = (isActive) => ({
   color: isActive ? '#DA291C' : '#73726c', fontWeight: isActive ? 500 : 400,
 })
 
+function Loader() {
+  return (
+    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f8f7f4' }}>
+      <div style={{ textAlign: 'center' }}>
+        <div style={{ fontSize: 32, marginBottom: 8 }}>🍟</div>
+        <div style={{ fontSize: 13, color: '#73726c' }}>Cargando...</div>
+      </div>
+    </div>
+  )
+}
+
 function LoginGuard() {
   const { usuario, loading } = useAuth()
-  if (loading) {
-    return (
-      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f8f7f4' }}>
-        <div style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: 32, marginBottom: 8 }}>🍟</div>
-          <div style={{ fontSize: 13, color: '#73726c' }}>Cargando...</div>
-        </div>
-      </div>
-    )
-  }
+  if (loading) return <Loader />
   if (usuario?.rol) return <Navigate to="/" replace />
   return <Login />
+}
+
+function LayoutGuard() {
+  const { loading } = useAuth()
+  if (loading) return <Loader />
+  return <Layout />
 }
 
 export default function App() {
@@ -102,24 +110,10 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<LoginGuard />} />
+          <Route path="/auth/callback" element={<AuthCallback />} />
           <Route path="/*" element={<LayoutGuard />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
   )
-}
-
-function LayoutGuard() {
-  const { loading } = useAuth()
-  if (loading) {
-    return (
-      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f8f7f4' }}>
-        <div style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: 32, marginBottom: 8 }}>🍟</div>
-          <div style={{ fontSize: 13, color: '#73726c' }}>Cargando...</div>
-        </div>
-      </div>
-    )
-  }
-  return <Layout />
 }
