@@ -8,7 +8,25 @@ import './App.css'
 
 function Layout() {
   const { usuario, logout, alertas, puedeCargarTurno, puedeSubirPDF } = useAuth()
-  if (!usuario) return <Navigate to="/login" />
+
+  if (!usuario) return <Navigate to="/login" replace />
+
+  // Usuario autenticado pero sin rol asignado aún
+  if (!usuario.rol) {
+    return (
+      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f8f7f4' }}>
+        <div style={{ textAlign: 'center', padding: '2rem' }}>
+          <div style={{ fontSize: 32, marginBottom: 12 }}>⏳</div>
+          <div style={{ fontSize: 16, fontWeight: 500, marginBottom: 8 }}>Verificando acceso...</div>
+          <div style={{ fontSize: 13, color: '#73726c' }}>Tu cuenta está siendo configurada. Contactá al gerente si el problema persiste.</div>
+          <button onClick={logout} style={{ marginTop: '1.5rem', padding: '8px 16px', border: '0.5px solid #ccc', borderRadius: 8, background: 'transparent', cursor: 'pointer', fontSize: 13, fontFamily: 'inherit' }}>
+            Cerrar sesión
+          </button>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div style={{ minHeight: '100vh', background: '#f8f7f4' }}>
       <header style={{ background: '#DA291C', color: '#fff', padding: '0 1rem', display: 'flex', alignItems: 'center', gap: 12, height: 52, position: 'sticky', top: 0, zIndex: 100 }}>
@@ -24,14 +42,16 @@ function Layout() {
           Salir
         </button>
       </header>
-      <main style={{ padding: '1.5rem 0', maxWidth: 680, margin: '0 auto' }}>
+
+      <main style={{ padding: '1.5rem 1rem', maxWidth: 680, margin: '0 auto' }}>
         <Routes>
           <Route path="/" element={<Leaderboard />} />
           {puedeCargarTurno && <Route path="/turno" element={<CargarTurno />} />}
           {puedeSubirPDF && <Route path="/horarios" element={<SubirHorarios />} />}
-          <Route path="*" element={<Navigate to="/" />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
+
       <nav style={{ position: 'sticky', bottom: 0, background: '#fff', borderTop: '0.5px solid #e0ddd4', display: 'flex', justifyContent: 'space-around', padding: '8px 0 12px' }}>
         <NavLink to="/" end style={({ isActive }) => navStyle(isActive)}>
           <span style={{ fontSize: 20 }}>🏆</span>
@@ -60,22 +80,46 @@ const navStyle = (isActive) => ({
   color: isActive ? '#DA291C' : '#73726c', fontWeight: isActive ? 500 : 400,
 })
 
+function LoginGuard() {
+  const { usuario, loading } = useAuth()
+  if (loading) {
+    return (
+      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f8f7f4' }}>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ fontSize: 32, marginBottom: 8 }}>🍟</div>
+          <div style={{ fontSize: 13, color: '#73726c' }}>Cargando...</div>
+        </div>
+      </div>
+    )
+  }
+  if (usuario?.rol) return <Navigate to="/" replace />
+  return <Login />
+}
+
 export default function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<LoginGuard />} />
-          <Route path="/*" element={<Layout />} />
+          <Route path="/*" element={<LayoutGuard />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
   )
 }
 
-function LoginGuard() {
-  const { usuario, loading } = useAuth()
-  if (loading) return null
-  if (usuario) return <Navigate to="/" />
-  return <Login />
+function LayoutGuard() {
+  const { loading } = useAuth()
+  if (loading) {
+    return (
+      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f8f7f4' }}>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ fontSize: 32, marginBottom: 8 }}>🍟</div>
+          <div style={{ fontSize: 13, color: '#73726c' }}>Cargando...</div>
+        </div>
+      </div>
+    )
+  }
+  return <Layout />
 }
