@@ -17,7 +17,7 @@ const slides = [
   {
     contenido: <>
       <h2 className="deck-titulo">¿De qué se trata?</h2>
-      <p className="deck-sub">Tu laburo de siempre, pero ahora cada turno bien jugado te suma</p>
+      <p className="deck-sub">Tu trabajo de siempre, pero ahora cada turno bien jugado suma puntos</p>
       <div style={{ display: 'grid', gridTemplateColumns: '3fr 2fr', gap: '4vmin', alignItems: 'center' }}>
         <div style={{ fontSize: '2.7vmin', lineHeight: 1.55, display: 'flex', flexDirection: 'column', gap: '3vmin' }}>
           <p>Cada turno que trabajás, el local mide cuatro cosas: <b>el desperdicio completo, el incompleto, el tiempo de MFY y el stat del día</b>. Si el turno las hace bien, todos los que estuvieron en ese turno suman puntos.</p>
@@ -35,7 +35,7 @@ const slides = [
   {
     contenido: <>
       <h2 className="deck-titulo">Cómo se suman puntos</h2>
-      <p className="deck-sub">Premia jugar limpio y cuidar el producto — el que rompe, resta</p>
+      <p className="deck-sub">Premia jugar limpio y cuidar el producto — quien incumple, resta</p>
       <div className="deck-grid deck-g2">
         <div className="deck-card deck-pts"><div className="deck-num">+10</div><div><h3>Desperdicio en objetivo</h3><p>Completo ≤ 0,10% o incompleto ≤ 0,44% de la venta del turno.</p></div></div>
         <div className="deck-card deck-pts"><div className="deck-num">+20</div><div><h3>Cero absoluto</h3><p>Turno con completo o incompleto en $0: el doble de puntos.</p></div></div>
@@ -73,9 +73,9 @@ const slides = [
   {
     contenido: <>
       <h2 className="deck-titulo">Empezá hoy: 3 pasos</h2>
-      <p className="deck-sub">Dos minutos y quedás adentro de la competencia</p>
+      <p className="deck-sub">En dos minutos ya estás participando</p>
       <div className="deck-grid deck-g3">
-        <div className="deck-card">{num(1)}<h3>Entrá</h3><p>Abrí <span className="deck-url">app-controlables.vercel.app</span> en tu celu e ingresá con tu cuenta de Google (la que le diste al gerente).</p></div>
+        <div className="deck-card">{num(1)}<h3>Entrá</h3><p>Abrí <span className="deck-url">app-controlables.vercel.app</span> en tu celular e ingresá con tu cuenta de Google (la que le diste al gerente).</p></div>
         <div className="deck-card">{num(2)}<h3>Instalala</h3><p>Desde el menú del navegador: “Agregar a pantalla de inicio”. Queda como una app más.</p></div>
         <div className="deck-card">{num(3)}<h3>Jugá</h3><p>Mirá el ranking, defendé tu turno y sumá puntos en cada franja que trabajes.</p></div>
       </div>
