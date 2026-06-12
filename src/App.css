@@ -1,11 +1,76 @@
+/* ============================
+   Tema: variables de color
+   ============================ */
+:root {
+  --bg-app: #f8f7f4;
+  --bg-card: #ffffff;
+  --bg-suave: #f8f7f4;
+  --bg-activo: #f0ede6;
+  --borde: #e0ddd4;
+  --borde-suave: #f0ede6;
+  --borde-input: #cccccc;
+  --texto: #1a1a1a;
+  --texto-sec: #73726c;
+  --texto-ter: #888888;
+  --texto-mute: #aaaaaa;
+  --rojo: #DA291C;
+  --rojo-suave: #fff0ef;
+  --ok: #27500A;
+  --fail: #A32D2D;
+  --azul: #185FA5;
+  --verde2: #639922;
+  --chip-verde-bg: #EAF3DE;  --chip-verde-tx: #27500A;
+  --chip-rojo-bg: #FCEBEB;   --chip-rojo-tx: #501313;
+  --chip-azul-bg: #E6F1FB;   --chip-azul-tx: #0C447C;
+  --chip-viol-bg: #EEEDFE;   --chip-viol-tx: #3C3489;
+  --chip-amar-bg: #FAEEDA;   --chip-amar-tx: #633806;
+}
+
+[data-theme="dark"] {
+  --bg-app: #161513;
+  --bg-card: #211f1c;
+  --bg-suave: #2a2723;
+  --bg-activo: #38342e;
+  --borde: #3a362f;
+  --borde-suave: #2e2b26;
+  --borde-input: #4a453d;
+  --texto: #ece9e2;
+  --texto-sec: #a8a399;
+  --texto-ter: #8d887e;
+  --texto-mute: #6e6961;
+  --rojo-suave: #3a221f;
+  --ok: #9ccd72;
+  --fail: #e0837b;
+  --azul: #7db4e8;
+  --verde2: #9cc35a;
+  --chip-verde-bg: #2c3a21;  --chip-verde-tx: #bcd99c;
+  --chip-rojo-bg: #41221f;   --chip-rojo-tx: #eaaba4;
+  --chip-azul-bg: #20303f;   --chip-azul-tx: #a3c9ec;
+  --chip-viol-bg: #2d2a47;   --chip-viol-tx: #bdb7f0;
+  --chip-amar-bg: #3e3420;   --chip-amar-tx: #e8d4a4;
+}
+
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: #1a1a1a; -webkit-font-smoothing: antialiased; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: var(--texto);
+  background: var(--bg-app);
+  -webkit-font-smoothing: antialiased;
+}
 input, select, button, textarea { font-family: inherit; }
 a { color: inherit; }
 
+input, select, textarea {
+  background: var(--bg-card);
+  color: var(--texto);
+}
+button { color: var(--texto); }
+[data-theme="dark"] input[type="date"],
+[data-theme="dark"] select { color-scheme: dark; }
+
 .app-shell {
   min-height: 100vh;
-  background: #f8f7f4;
+  background: var(--bg-app);
   display: flex;
   flex-direction: column;
 }
@@ -30,8 +95,8 @@ a { color: inherit; }
 .bottom-nav {
   position: sticky;
   bottom: 0;
-  background: #fff;
-  border-top: 0.5px solid #e0ddd4;
+  background: var(--bg-card);
+  border-top: 0.5px solid var(--borde);
   display: flex;
   justify-content: space-around;
   padding: 8px 0 12px;
@@ -44,8 +109,8 @@ a { color: inherit; }
     gap: 4px;
     width: 220px;
     min-width: 220px;
-    background: #fff;
-    border-right: 0.5px solid #e0ddd4;
+    background: var(--bg-card);
+    border-right: 0.5px solid var(--borde);
     padding: 1.25rem 0.75rem;
     position: sticky;
     top: 52px;
@@ -72,23 +137,38 @@ a { color: inherit; }
   border-radius: 8px;
   font-size: 14px;
   text-decoration: none;
-  color: #73726c;
+  color: var(--texto-sec);
   font-weight: 400;
   transition: background 0.15s;
 }
 
 .sidebar-link:hover {
-  background: #f8f7f4;
+  background: var(--bg-suave);
 }
 
 .sidebar-link.active {
-  color: #DA291C;
+  color: var(--rojo);
   font-weight: 500;
-  background: #fff0ef;
+  background: var(--rojo-suave);
 }
+
+/* Gráficos (recharts) en modo oscuro */
+[data-theme="dark"] .recharts-cartesian-grid line { stroke: var(--borde-suave); }
+[data-theme="dark"] .recharts-default-tooltip {
+  background: var(--bg-card) !important;
+  border-color: var(--borde) !important;
+}
+[data-theme="dark"] .recharts-tooltip-item-list *,
+[data-theme="dark"] .recharts-tooltip-label { color: var(--texto) !important; }
 
 /* Impresión de reportes (export a PDF del navegador) */
 @media print {
+  :root, [data-theme="dark"] {
+    --bg-app: #ffffff; --bg-card: #ffffff; --bg-suave: #f8f7f4;
+    --borde: #e0ddd4; --borde-suave: #f0ede6;
+    --texto: #1a1a1a; --texto-sec: #73726c; --texto-ter: #888888;
+    --ok: #27500A; --fail: #A32D2D; --azul: #185FA5;
+  }
   header, .app-sidebar, .bottom-nav, .no-print {
     display: none !important;
   }

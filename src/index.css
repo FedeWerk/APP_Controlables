@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  background: #f8f7f4;
+  background: var(--bg-app, #f8f7f4);
 }
 
 #root {

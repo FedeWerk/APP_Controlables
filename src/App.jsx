@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { BrowserRouter, Routes, Route, NavLink, Navigate } from 'react-router-dom'
 import { AuthProvider, useAuth } from './context/AuthContext'
 import Login from './pages/Login'
@@ -6,8 +7,35 @@ import Leaderboard from './pages/Leaderboard'
 import SubirHorarios from './pages/SubirHorarios'
 import IndicadoresMensuales from './pages/IndicadoresMensuales'
 import Reportes from './pages/Reportes'
+import Presentaciones from './pages/Presentaciones'
+import PresentacionEquipo from './pages/PresentacionEquipo'
+import PresentacionFranquicia from './pages/PresentacionFranquicia'
 import AuthCallback from './pages/AuthCallback'
 import './App.css'
+
+// Tema: preferencia guardada o la del sistema. Se aplica antes del primer render.
+function temaInicial() {
+  const guardado = localStorage.getItem('ic-tema')
+  if (guardado === 'dark' || guardado === 'light') return guardado
+  return window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+}
+document.documentElement.dataset.theme = temaInicial()
+
+function BotonTema() {
+  const [tema, setTema] = useState(document.documentElement.dataset.theme)
+  function alternar() {
+    const nuevo = tema === 'dark' ? 'light' : 'dark'
+    document.documentElement.dataset.theme = nuevo
+    localStorage.setItem('ic-tema', nuevo)
+    setTema(nuevo)
+  }
+  return (
+    <button onClick={alternar} title={tema === 'dark' ? 'Modo claro' : 'Modo oscuro'}
+      style={{ background: 'none', border: '0.5px solid rgba(255,255,255,0.4)', borderRadius: 6, color: '#fff', fontSize: 13, padding: '2px 8px', cursor: 'pointer', fontFamily: 'inherit', lineHeight: 1.4 }}>
+      {tema === 'dark' ? '☀️' : '🌙'}
+    </button>
+  )
+}
 
 function Layout() {
   const { usuario, logout, alertas, puedeCargarTurno, puedeSubirPDF, puedeVerReportes } = useAuth()
@@ -16,12 +44,12 @@ function Layout() {
 
   if (!usuario.rol) {
     return (
-      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f8f7f4' }}>
+      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg-app)' }}>
         <div style={{ textAlign: 'center', padding: '2rem' }}>
           <div style={{ fontSize: 32, marginBottom: 12 }}>⏳</div>
           <div style={{ fontSize: 16, fontWeight: 500, marginBottom: 8 }}>Verificando acceso...</div>
-          <div style={{ fontSize: 13, color: '#73726c' }}>Contactá al gerente si el problema persiste.</div>
-          <button onClick={logout} style={{ marginTop: '1.5rem', padding: '8px 16px', border: '0.5px solid #ccc', borderRadius: 8, background: 'transparent', cursor: 'pointer', fontSize: 13, fontFamily: 'inherit' }}>
+          <div style={{ fontSize: 13, color: 'var(--texto-sec)' }}>Contactá al gerente si el problema persiste.</div>
+          <button onClick={logout} style={{ marginTop: '1.5rem', padding: '8px 16px', border: '0.5px solid var(--borde-input)', borderRadius: 8, background: 'transparent', color: 'var(--texto)', cursor: 'pointer', fontSize: 13, fontFamily: 'inherit' }}>
             Cerrar sesión
           </button>
         </div>
@@ -40,6 +68,7 @@ function Layout() {
           </span>
         )}
         <div style={{ fontSize: 12, opacity: 0.85 }}>{usuario.nombre}</div>
+        <BotonTema />
         <button onClick={logout} style={{ background: 'none', border: '0.5px solid rgba(255,255,255,0.4)', borderRadius: 6, color: '#fff', fontSize: 11, padding: '3px 10px', cursor: 'pointer', fontFamily: 'inherit' }}>
           Salir
         </button>
@@ -75,6 +104,10 @@ function Layout() {
               <span>Reportes</span>
             </NavLink>
           )}
+          <NavLink to="/presentaciones" className={({ isActive }) => `sidebar-link${isActive ? ' active' : ''}`}>
+            <span style={{ fontSize: 20 }}>🎤</span>
+            <span>Presentación</span>
+          </NavLink>
         </aside>
 
         <main className="app-main">
@@ -84,6 +117,9 @@ function Layout() {
             {puedeSubirPDF && <Route path="/horarios" element={<SubirHorarios />} />}
             {puedeVerReportes && <Route path="/indicadores" element={<IndicadoresMensuales />} />}
             {puedeVerReportes && <Route path="/reportes" element={<Reportes />} />}
+            <Route path="/presentaciones" element={<Presentaciones />} />
+            <Route path="/presentaciones/equipo" element={<PresentacionEquipo />} />
+            {puedeVerReportes && <Route path="/presentaciones/franquicia" element={<PresentacionFranquicia />} />}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </main>
@@ -97,7 +133,7 @@ function Layout() {
         {puedeCargarTurno && (
           <NavLink to="/turno" style={({ isActive }) => navStyle(isActive)}>
             <span style={{ fontSize: 20 }}>📝</span>
-            <span>Cargar turno</span>
+            <span>Cargar</span>
           </NavLink>
         )}
         {puedeSubirPDF && (
@@ -118,6 +154,10 @@ function Layout() {
             <span>Reportes</span>
           </NavLink>
         )}
+        <NavLink to="/presentaciones" style={({ isActive }) => navStyle(isActive)}>
+          <span style={{ fontSize: 20 }}>🎤</span>
+          <span>Present.</span>
+        </NavLink>
       </nav>
     </div>
   )
@@ -125,16 +165,16 @@ function Layout() {
 
 const navStyle = (isActive) => ({
   display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2,
-  fontSize: 11, textDecoration: 'none', padding: '4px 16px', borderRadius: 8,
-  color: isActive ? '#DA291C' : '#73726c', fontWeight: isActive ? 500 : 400,
+  fontSize: 11, textDecoration: 'none', padding: '4px 10px', borderRadius: 8,
+  color: isActive ? 'var(--rojo)' : 'var(--texto-sec)', fontWeight: isActive ? 500 : 400,
 })
 
 function Loader() {
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f8f7f4' }}>
+    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg-app)' }}>
       <div style={{ textAlign: 'center' }}>
         <div style={{ fontSize: 32, marginBottom: 8 }}>🍟</div>
-        <div style={{ fontSize: 13, color: '#73726c' }}>Cargando...</div>
+        <div style={{ fontSize: 13, color: 'var(--texto-sec)' }}>Cargando...</div>
       </div>
     </div>
   )

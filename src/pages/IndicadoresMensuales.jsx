@@ -85,11 +85,11 @@ export default function IndicadoresMensuales() {
   return (
     <div style={{ maxWidth: 640, margin: '0 auto', padding: '1rem' }}>
       <h2 style={{ fontSize: 18, fontWeight: 500, marginBottom: '0.5rem' }}>Indicadores mensuales</h2>
-      <p style={{ fontSize: 13, color: '#73726c', marginBottom: '1.5rem' }}>
+      <p style={{ fontSize: 13, color: 'var(--texto-sec)', marginBottom: '1.5rem' }}>
         Cargá Food Otros y Paper Otros a mes cerrado. Objetivos: Food ≤ {OBJ.food_otros}% · Paper ≤ {OBJ.paper_otros}%
       </p>
 
-      <div style={{ background: '#fff', border: '0.5px solid #e0ddd4', borderRadius: 12, padding: '1rem 1.25rem', marginBottom: '1rem' }}>
+      <div style={{ background: 'var(--bg-card)', border: '0.5px solid var(--borde)', borderRadius: 12, padding: '1rem 1.25rem', marginBottom: '1rem' }}>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: '1rem' }}>
           <div>
             <label style={lbl}>Mes</label>
@@ -110,27 +110,27 @@ export default function IndicadoresMensuales() {
             <label style={lbl}>Food Otros (%)</label>
             <input type="number" step="0.01" value={food} onChange={e => setFood(e.target.value)} placeholder="ej: 0.78" style={inp} />
             {!isNaN(foodV) && food !== '' && (
-              <div style={{ fontSize: 13, fontWeight: 500, marginTop: 4, color: foodOk ? '#27500A' : '#A32D2D' }}>
+              <div style={{ fontSize: 13, fontWeight: 500, marginTop: 4, color: foodOk ? 'var(--ok)' : 'var(--fail)' }}>
                 {foodOk ? '✓ En objetivo' : '✗ Fuera de objetivo'}
               </div>
             )}
-            <div style={{ fontSize: 11, color: '#888', marginTop: 2 }}>Obj ≤ {OBJ.food_otros}%</div>
+            <div style={{ fontSize: 11, color: 'var(--texto-ter)', marginTop: 2 }}>Obj ≤ {OBJ.food_otros}%</div>
           </div>
           <div>
             <label style={lbl}>Paper Otros (%)</label>
             <input type="number" step="0.01" value={paper} onChange={e => setPaper(e.target.value)} placeholder="ej: 0.69" style={inp} />
             {!isNaN(paperV) && paper !== '' && (
-              <div style={{ fontSize: 13, fontWeight: 500, marginTop: 4, color: paperOk ? '#27500A' : '#A32D2D' }}>
+              <div style={{ fontSize: 13, fontWeight: 500, marginTop: 4, color: paperOk ? 'var(--ok)' : 'var(--fail)' }}>
                 {paperOk ? '✓ En objetivo' : '✗ Fuera de objetivo'}
               </div>
             )}
-            <div style={{ fontSize: 11, color: '#888', marginTop: 2 }}>Obj ≤ {OBJ.paper_otros}%</div>
+            <div style={{ fontSize: 11, color: 'var(--texto-ter)', marginTop: 2 }}>Obj ≤ {OBJ.paper_otros}%</div>
           </div>
         </div>
       </div>
 
-      {error && <div style={{ background: '#FCEBEB', color: '#501313', padding: '10px 14px', borderRadius: 8, fontSize: 13, marginBottom: '1rem' }}>{error}</div>}
-      {guardado && <div style={{ background: '#EAF3DE', color: '#27500A', padding: '10px 14px', borderRadius: 8, fontSize: 13, marginBottom: '1rem' }}>✓ Indicadores guardados para {MESES[mes - 1]} {anio}</div>}
+      {error && <div style={{ background: 'var(--chip-rojo-bg)', color: 'var(--chip-rojo-tx)', padding: '10px 14px', borderRadius: 8, fontSize: 13, marginBottom: '1rem' }}>{error}</div>}
+      {guardado && <div style={{ background: 'var(--chip-verde-bg)', color: 'var(--ok)', padding: '10px 14px', borderRadius: 8, fontSize: 13, marginBottom: '1rem' }}>✓ Indicadores guardados para {MESES[mes - 1]} {anio}</div>}
 
       <button onClick={guardar} disabled={guardando}
         style={{ padding: '10px 24px', background: '#DA291C', color: '#fff', border: 'none', borderRadius: 8, fontSize: 14, fontWeight: 500, cursor: guardando ? 'not-allowed' : 'pointer', opacity: guardando ? 0.7 : 1, fontFamily: 'inherit', marginBottom: '2rem' }}>
@@ -138,35 +138,35 @@ export default function IndicadoresMensuales() {
       </button>
 
       {historial.length > 0 && (
-        <div style={{ background: '#fff', border: '0.5px solid #e0ddd4', borderRadius: 12, overflow: 'hidden' }}>
-          <div style={{ padding: '10px 16px', background: '#f8f7f4', borderBottom: '0.5px solid #e0ddd4', fontSize: 13, fontWeight: 500 }}>
+        <div style={{ background: 'var(--bg-card)', border: '0.5px solid var(--borde)', borderRadius: 12, overflow: 'hidden' }}>
+          <div style={{ padding: '10px 16px', background: 'var(--bg-suave)', borderBottom: '0.5px solid var(--borde)', fontSize: 13, fontWeight: 500 }}>
             Últimos meses cargados
           </div>
           <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
             <thead>
-              <tr style={{ background: '#f8f7f4' }}>
+              <tr style={{ background: 'var(--bg-suave)' }}>
                 {['Mes', 'Food Otros', 'Paper Otros'].map(h => (
-                  <th key={h} style={{ padding: '6px 16px', textAlign: 'left', color: '#73726c', fontWeight: 500, borderBottom: '0.5px solid #e0ddd4', fontSize: 12 }}>{h}</th>
+                  <th key={h} style={{ padding: '6px 16px', textAlign: 'left', color: 'var(--texto-sec)', fontWeight: 500, borderBottom: '0.5px solid var(--borde)', fontSize: 12 }}>{h}</th>
                 ))}
               </tr>
             </thead>
             <tbody>
               {historial.map(h => (
-                <tr key={`${h.anio}-${h.mes}`} style={{ borderBottom: '0.5px solid #f0ede6' }}>
+                <tr key={`${h.anio}-${h.mes}`} style={{ borderBottom: '0.5px solid var(--borde-suave)' }}>
                   <td style={{ padding: '8px 16px' }}>{MESES[h.mes - 1]} {h.anio}</td>
                   <td style={{ padding: '8px 16px' }}>
                     {h.food_otros_pct != null ? (
-                      <span style={{ color: h.food_ok ? '#27500A' : '#A32D2D', fontWeight: 500 }}>
+                      <span style={{ color: h.food_ok ? 'var(--ok)' : 'var(--fail)', fontWeight: 500 }}>
                         {h.food_otros_pct}% {h.food_ok ? '✓' : '✗'}
                       </span>
-                    ) : <span style={{ color: '#aaa' }}>—</span>}
+                    ) : <span style={{ color: 'var(--texto-mute)' }}>—</span>}
                   </td>
                   <td style={{ padding: '8px 16px' }}>
                     {h.paper_otros_pct != null ? (
-                      <span style={{ color: h.paper_ok ? '#27500A' : '#A32D2D', fontWeight: 500 }}>
+                      <span style={{ color: h.paper_ok ? 'var(--ok)' : 'var(--fail)', fontWeight: 500 }}>
                         {h.paper_otros_pct}% {h.paper_ok ? '✓' : '✗'}
                       </span>
-                    ) : <span style={{ color: '#aaa' }}>—</span>}
+                    ) : <span style={{ color: 'var(--texto-mute)' }}>—</span>}
                   </td>
                 </tr>
               ))}
@@ -178,5 +178,5 @@ export default function IndicadoresMensuales() {
   )
 }
 
-const lbl = { fontSize: 12, color: '#73726c', display: 'block', marginBottom: 4 }
-const inp = { width: '100%', fontFamily: 'inherit', fontSize: 13, padding: '6px 9px', border: '0.5px solid #ccc', borderRadius: 8, background: '#fff', color: '#1a1a1a', boxSizing: 'border-box' }
+const lbl = { fontSize: 12, color: 'var(--texto-sec)', display: 'block', marginBottom: 4 }
+const inp = { width: '100%', fontFamily: 'inherit', fontSize: 13, padding: '6px 9px', border: '0.5px solid var(--borde-input)', borderRadius: 8, background: 'var(--bg-card)', color: 'var(--texto)', boxSizing: 'border-box' }

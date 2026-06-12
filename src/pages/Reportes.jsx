@@ -126,7 +126,7 @@ export default function Reportes() {
         <div style={{ display: 'flex', gap: 8 }} className="no-print">
           <select value={`${periodo.anio}-${periodo.mes}`}
             onChange={e => { const [a, m] = e.target.value.split('-'); setPeriodo({ anio: parseInt(a), mes: parseInt(m) }) }}
-            style={{ fontSize: 13, padding: '5px 8px', border: '0.5px solid #ccc', borderRadius: 8, fontFamily: 'inherit' }}>
+            style={{ fontSize: 13, padding: '5px 8px', border: '0.5px solid var(--borde-input)', borderRadius: 8, fontFamily: 'inherit' }}>
             {ultimosMeses(12).map(p => (
               <option key={`${p.anio}-${p.mes}`} value={`${p.anio}-${p.mes}`}>{MESES[p.mes - 1]} {p.anio}</option>
             ))}
@@ -135,14 +135,14 @@ export default function Reportes() {
           <button onClick={() => window.print()} style={btn}>🖨 PDF</button>
         </div>
       </div>
-      <p style={{ fontSize: 13, color: '#73726c', marginBottom: '1.5rem' }}>
+      <p style={{ fontSize: 13, color: 'var(--texto-sec)', marginBottom: '1.5rem' }}>
         IC VCP — {MESES[periodo.mes - 1]} {periodo.anio} · McDonald's Villa Carlos Paz
       </p>
 
       {loading ? (
-        <div style={{ textAlign: 'center', padding: '2rem', color: '#888', fontSize: 13 }}>Cargando...</div>
+        <div style={{ textAlign: 'center', padding: '2rem', color: 'var(--texto-ter)', fontSize: 13 }}>Cargando...</div>
       ) : dias.length === 0 ? (
-        <div style={{ background: '#fff', border: '0.5px solid #e0ddd4', borderRadius: 12, padding: '2rem', textAlign: 'center', color: '#888', fontSize: 13 }}>
+        <div style={{ background: 'var(--bg-card)', border: '0.5px solid var(--borde)', borderRadius: 12, padding: '2rem', textAlign: 'center', color: 'var(--texto-ter)', fontSize: 13 }}>
           Sin turnos cargados en {MESES[periodo.mes - 1]} {periodo.anio}
         </div>
       ) : (
@@ -164,13 +164,13 @@ export default function Reportes() {
           </div>
 
           {/* Evolución diaria */}
-          <div style={{ background: '#fff', border: '0.5px solid #e0ddd4', borderRadius: 12, padding: '1rem 1.25rem', marginBottom: '1.5rem' }}>
+          <div style={{ background: 'var(--bg-card)', border: '0.5px solid var(--borde)', borderRadius: 12, padding: '1rem 1.25rem', marginBottom: '1.5rem' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem', flexWrap: 'wrap', gap: 8 }}>
               <div style={{ fontSize: 13, fontWeight: 500 }}>Evolución diaria</div>
               <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }} className="no-print">
                 {INDICADORES.map(i => (
                   <button key={i.id} onClick={() => setInd(i.id)}
-                    style={{ padding: '4px 10px', border: '0.5px solid #ccc', borderRadius: 8, background: indicador === i.id ? '#f0ede6' : 'transparent', fontWeight: indicador === i.id ? 500 : 400, cursor: 'pointer', fontFamily: 'inherit', fontSize: 12 }}>
+                    style={{ padding: '4px 10px', border: '0.5px solid var(--borde-input)', borderRadius: 8, background: indicador === i.id ? 'var(--bg-activo)' : 'transparent', fontWeight: indicador === i.id ? 500 : 400, cursor: 'pointer', fontFamily: 'inherit', fontSize: 12 }}>
                     {i.label}
                   </button>
                 ))}
@@ -184,9 +184,9 @@ export default function Reportes() {
                 <Tooltip
                   formatter={(v) => [indicador === 'mfy_prom' ? `${v}"` : `${v}%`, indActual.label]}
                   labelFormatter={d => `Día ${d}`}
-                  contentStyle={{ fontSize: 12, borderRadius: 8, border: '0.5px solid #e0ddd4' }} />
+                  contentStyle={{ fontSize: 12, borderRadius: 8, border: '0.5px solid var(--borde)' }} />
                 <ReferenceLine y={indActual.obj} stroke="#A32D2D" strokeDasharray="4 4"
-                  label={{ value: indActual.objLabel, fontSize: 10, fill: '#A32D2D', position: 'insideTopRight' }} />
+                  label={{ value: indActual.objLabel, fontSize: 10, fill: 'var(--fail)', position: 'insideTopRight' }} />
                 {indicador === 'stat_pct' && <ReferenceLine y={-OBJ.stat} stroke="#A32D2D" strokeDasharray="4 4" />}
                 {indicador === 'mfy_prom' && <ReferenceLine y={OBJ.mfy_min} stroke="#B86E00" strokeDasharray="4 4"
                   label={{ value: `Min ${OBJ.mfy_min}"`, fontSize: 10, fill: '#B86E00', position: 'insideBottomRight' }} />}
@@ -197,28 +197,28 @@ export default function Reportes() {
           </div>
 
           {/* Tabla diaria */}
-          <div style={{ background: '#fff', border: '0.5px solid #e0ddd4', borderRadius: 12, overflow: 'hidden', marginBottom: '1rem' }}>
-            <div style={{ padding: '10px 16px', background: '#f8f7f4', borderBottom: '0.5px solid #e0ddd4', fontSize: 13, fontWeight: 500 }}>
+          <div style={{ background: 'var(--bg-card)', border: '0.5px solid var(--borde)', borderRadius: 12, overflow: 'hidden', marginBottom: '1rem' }}>
+            <div style={{ padding: '10px 16px', background: 'var(--bg-suave)', borderBottom: '0.5px solid var(--borde)', fontSize: 13, fontWeight: 500 }}>
               Detalle diario
             </div>
             <div style={{ overflowX: 'auto' }}>
               <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 12 }}>
                 <thead>
-                  <tr style={{ background: '#f8f7f4' }}>
+                  <tr style={{ background: 'var(--bg-suave)' }}>
                     {['Día', 'Venta', 'Completo %', 'Incompleto %', 'MFY', 'Stat %'].map(h => (
-                      <th key={h} style={{ padding: '6px 10px', textAlign: 'left', color: '#73726c', fontWeight: 500, borderBottom: '0.5px solid #e0ddd4' }}>{h}</th>
+                      <th key={h} style={{ padding: '6px 10px', textAlign: 'left', color: 'var(--texto-sec)', fontWeight: 500, borderBottom: '0.5px solid var(--borde)' }}>{h}</th>
                     ))}
                   </tr>
                 </thead>
                 <tbody>
                   {dias.map(d => (
-                    <tr key={d.fecha} style={{ borderBottom: '0.5px solid #f0ede6' }}>
+                    <tr key={d.fecha} style={{ borderBottom: '0.5px solid var(--borde-suave)' }}>
                       <td style={{ padding: '6px 10px' }}>{d.dia}</td>
                       <td style={{ padding: '6px 10px' }}>{fmtMoney(d.venta)}</td>
-                      <td style={{ padding: '6px 10px', color: d.completo_pct == null ? '#aaa' : d.completo_pct <= OBJ.completo ? '#27500A' : '#A32D2D' }}>{d.completo_pct != null ? d.completo_pct + '%' : '—'}</td>
-                      <td style={{ padding: '6px 10px', color: d.incompleto_pct == null ? '#aaa' : d.incompleto_pct <= OBJ.incompleto ? '#27500A' : '#A32D2D' }}>{d.incompleto_pct != null ? d.incompleto_pct + '%' : '—'}</td>
-                      <td style={{ padding: '6px 10px', color: d.mfy_prom == null ? '#aaa' : d.mfy_prom >= OBJ.mfy_min && d.mfy_prom <= OBJ.mfy_max ? '#27500A' : '#A32D2D' }}>{d.mfy_prom != null ? d.mfy_prom + '"' : '—'}</td>
-                      <td style={{ padding: '6px 10px', color: d.stat_pct == null ? '#aaa' : d.stat_ok ? '#27500A' : '#A32D2D' }}>{d.stat_pct != null ? d.stat_pct + '%' : '—'}</td>
+                      <td style={{ padding: '6px 10px', color: d.completo_pct == null ? '#aaa' : d.completo_pct <= OBJ.completo ? 'var(--ok)' : 'var(--fail)' }}>{d.completo_pct != null ? d.completo_pct + '%' : '—'}</td>
+                      <td style={{ padding: '6px 10px', color: d.incompleto_pct == null ? '#aaa' : d.incompleto_pct <= OBJ.incompleto ? 'var(--ok)' : 'var(--fail)' }}>{d.incompleto_pct != null ? d.incompleto_pct + '%' : '—'}</td>
+                      <td style={{ padding: '6px 10px', color: d.mfy_prom == null ? '#aaa' : d.mfy_prom >= OBJ.mfy_min && d.mfy_prom <= OBJ.mfy_max ? 'var(--ok)' : 'var(--fail)' }}>{d.mfy_prom != null ? d.mfy_prom + '"' : '—'}</td>
+                      <td style={{ padding: '6px 10px', color: d.stat_pct == null ? '#aaa' : d.stat_ok ? 'var(--ok)' : 'var(--fail)' }}>{d.stat_pct != null ? d.stat_pct + '%' : '—'}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -233,14 +233,14 @@ export default function Reportes() {
 
 function Card({ titulo, valor, sub, ok = null }) {
   return (
-    <div style={{ background: '#fff', border: '0.5px solid #e0ddd4', borderRadius: 12, padding: '0.75rem 1rem' }}>
-      <div style={{ fontSize: 11, color: '#73726c', marginBottom: 4 }}>{titulo}</div>
-      <div style={{ fontSize: 17, fontWeight: 500, color: ok === null ? '#1a1a1a' : ok ? '#27500A' : '#A32D2D' }}>
+    <div style={{ background: 'var(--bg-card)', border: '0.5px solid var(--borde)', borderRadius: 12, padding: '0.75rem 1rem' }}>
+      <div style={{ fontSize: 11, color: 'var(--texto-sec)', marginBottom: 4 }}>{titulo}</div>
+      <div style={{ fontSize: 17, fontWeight: 500, color: ok === null ? '#1a1a1a' : ok ? 'var(--ok)' : 'var(--fail)' }}>
         {valor}{ok !== null && <span style={{ fontSize: 12, marginLeft: 4 }}>{ok ? '✓' : '✗'}</span>}
       </div>
-      <div style={{ fontSize: 11, color: '#888', marginTop: 2 }}>{sub}</div>
+      <div style={{ fontSize: 11, color: 'var(--texto-ter)', marginTop: 2 }}>{sub}</div>
     </div>
   )
 }
 
-const btn = { padding: '5px 12px', border: '0.5px solid #ccc', borderRadius: 8, background: 'transparent', cursor: 'pointer', fontFamily: 'inherit', fontSize: 13 }
+const btn = { padding: '5px 12px', border: '0.5px solid var(--borde-input)', borderRadius: 8, background: 'transparent', cursor: 'pointer', fontFamily: 'inherit', fontSize: 13 }

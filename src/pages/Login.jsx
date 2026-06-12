@@ -35,12 +35,12 @@ export default function Login() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f8f7f4' }}>
-      <div style={{ background: '#fff', borderRadius: 16, border: '0.5px solid #e0ddd4', padding: '2.5rem 2rem', width: '100%', maxWidth: 360 }}>
+    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg-suave)' }}>
+      <div style={{ background: 'var(--bg-card)', borderRadius: 16, border: '0.5px solid var(--borde)', padding: '2.5rem 2rem', width: '100%', maxWidth: 360 }}>
         <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
           <div style={{ fontSize: 32, marginBottom: 8 }}>🍟</div>
-          <div style={{ fontSize: 20, fontWeight: 500, color: '#1a1a1a' }}>IC VCP</div>
-          <div style={{ fontSize: 13, color: '#73726c', marginTop: 4 }}>McDonald's Villa Carlos Paz</div>
+          <div style={{ fontSize: 20, fontWeight: 500, color: 'var(--texto)' }}>IC VCP</div>
+          <div style={{ fontSize: 13, color: 'var(--texto-sec)', marginTop: 4 }}>McDonald's Villa Carlos Paz</div>
         </div>
 
         {/* Botón Google */}
@@ -48,12 +48,12 @@ export default function Login() {
           onClick={handleGoogle}
           disabled={loadingGoogle}
           style={{
-            width: '100%', padding: '10px', background: '#fff',
-            border: '0.5px solid #ccc', borderRadius: 8, fontSize: 14,
+            width: '100%', padding: '10px', background: 'var(--bg-card)',
+            border: '0.5px solid var(--borde-input)', borderRadius: 8, fontSize: 14,
             fontWeight: 500, cursor: loadingGoogle ? 'not-allowed' : 'pointer',
             fontFamily: 'inherit', display: 'flex', alignItems: 'center',
             justifyContent: 'center', gap: 10, marginBottom: '1.25rem',
-            opacity: loadingGoogle ? 0.7 : 1, color: '#1a1a1a'
+            opacity: loadingGoogle ? 0.7 : 1, color: 'var(--texto)'
           }}
         >
           <svg width="18" height="18" viewBox="0 0 48 48">
@@ -66,30 +66,30 @@ export default function Login() {
         </button>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: '1.25rem' }}>
-          <div style={{ flex: 1, height: '0.5px', background: '#e0ddd4' }} />
-          <span style={{ fontSize: 12, color: '#aaa' }}>o con email</span>
-          <div style={{ flex: 1, height: '0.5px', background: '#e0ddd4' }} />
+          <div style={{ flex: 1, height: '0.5px', background: 'var(--borde)' }} />
+          <span style={{ fontSize: 12, color: 'var(--texto-mute)' }}>o con email</span>
+          <div style={{ flex: 1, height: '0.5px', background: 'var(--borde)' }} />
         </div>
 
         <form onSubmit={handleSubmit}>
           <div style={{ marginBottom: '1rem' }}>
-            <label style={{ fontSize: 12, color: '#73726c', display: 'block', marginBottom: 5 }}>Email</label>
+            <label style={{ fontSize: 12, color: 'var(--texto-sec)', display: 'block', marginBottom: 5 }}>Email</label>
             <input
               type="email" value={email} onChange={e => setEmail(e.target.value)}
               placeholder="tu@email.com" required
-              style={{ width: '100%', padding: '8px 10px', border: '0.5px solid #ccc', borderRadius: 8, fontSize: 14, fontFamily: 'inherit', boxSizing: 'border-box' }}
+              style={{ width: '100%', padding: '8px 10px', border: '0.5px solid var(--borde-input)', borderRadius: 8, fontSize: 14, fontFamily: 'inherit', boxSizing: 'border-box' }}
             />
           </div>
           <div style={{ marginBottom: '1.5rem' }}>
-            <label style={{ fontSize: 12, color: '#73726c', display: 'block', marginBottom: 5 }}>Contraseña</label>
+            <label style={{ fontSize: 12, color: 'var(--texto-sec)', display: 'block', marginBottom: 5 }}>Contraseña</label>
             <input
               type="password" value={password} onChange={e => setPassword(e.target.value)}
               placeholder="••••••••" required
-              style={{ width: '100%', padding: '8px 10px', border: '0.5px solid #ccc', borderRadius: 8, fontSize: 14, fontFamily: 'inherit', boxSizing: 'border-box' }}
+              style={{ width: '100%', padding: '8px 10px', border: '0.5px solid var(--borde-input)', borderRadius: 8, fontSize: 14, fontFamily: 'inherit', boxSizing: 'border-box' }}
             />
           </div>
           {error && (
-            <div style={{ background: '#FCEBEB', color: '#501313', fontSize: 13, padding: '8px 12px', borderRadius: 8, marginBottom: '1rem' }}>
+            <div style={{ background: 'var(--chip-rojo-bg)', color: 'var(--chip-rojo-tx)', fontSize: 13, padding: '8px 12px', borderRadius: 8, marginBottom: '1rem' }}>
               {error}
             </div>
           )}

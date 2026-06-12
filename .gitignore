@@ -5,3 +5,4 @@ dist/
 *.local
 .vercel/
 screenshot_*.png
+smoke_*.png

@@ -133,61 +133,61 @@ export default function SubirHorarios() {
   return (
     <div style={{ maxWidth: 640, margin: '0 auto', padding: '1rem' }}>
       <h2 style={{ fontSize: 18, fontWeight: 500, marginBottom: '0.5rem' }}>Subir horarios de Orquest</h2>
-      <p style={{ fontSize: 13, color: '#73726c', marginBottom: '1.5rem' }}>
+      <p style={{ fontSize: 13, color: 'var(--texto-sec)', marginBottom: '1.5rem' }}>
         Exportá el PDF de horarios semanales desde Orquest y subilo acá. Se procesa localmente — los horarios no se almacenan, solo los datos de asignación de turno.
       </p>
 
-      <div style={{ background: '#fff', border: '0.5px solid #e0ddd4', borderRadius: 12, padding: '1rem 1.25rem', marginBottom: '1rem' }}>
+      <div style={{ background: 'var(--bg-card)', border: '0.5px solid var(--borde)', borderRadius: 12, padding: '1rem 1.25rem', marginBottom: '1rem' }}>
         <div style={{ marginBottom: '1rem' }}>
-          <label style={{ fontSize: 12, color: '#73726c', display: 'block', marginBottom: 4 }}>Semana de aplicación (lunes)</label>
+          <label style={{ fontSize: 12, color: 'var(--texto-sec)', display: 'block', marginBottom: 4 }}>Semana de aplicación (lunes)</label>
           <input type="date" value={semana} onChange={e => setSemana(e.target.value)}
-            style={{ fontFamily: 'inherit', fontSize: 13, padding: '6px 9px', border: '0.5px solid #ccc', borderRadius: 8, maxWidth: 200 }} />
-          <div style={{ fontSize: 11, color: '#888', marginTop: 3 }}>Se activará automáticamente el lunes 00:00</div>
+            style={{ fontFamily: 'inherit', fontSize: 13, padding: '6px 9px', border: '0.5px solid var(--borde-input)', borderRadius: 8, maxWidth: 200 }} />
+          <div style={{ fontSize: 11, color: 'var(--texto-ter)', marginTop: 3 }}>Se activará automáticamente el lunes 00:00</div>
         </div>
 
-        <label style={{ display: 'block', border: '1px dashed #ccc', borderRadius: 10, padding: '1.5rem', textAlign: 'center', cursor: 'pointer', background: '#faf9f7' }}>
+        <label style={{ display: 'block', border: '1px dashed var(--borde-input)', borderRadius: 10, padding: '1.5rem', textAlign: 'center', cursor: 'pointer', background: 'var(--bg-suave)' }}>
           <input type="file" accept=".pdf" onChange={procesarPDF} style={{ display: 'none' }} />
           <div style={{ fontSize: 24, marginBottom: 8 }}>📄</div>
-          <div style={{ fontSize: 14, fontWeight: 500, color: '#1a1a1a' }}>{archivo ? archivo.name : 'Seleccioná el PDF de Orquest'}</div>
-          <div style={{ fontSize: 12, color: '#888', marginTop: 4 }}>Hacé click o arrastrá el archivo acá</div>
+          <div style={{ fontSize: 14, fontWeight: 500, color: 'var(--texto)' }}>{archivo ? archivo.name : 'Seleccioná el PDF de Orquest'}</div>
+          <div style={{ fontSize: 12, color: 'var(--texto-ter)', marginTop: 4 }}>Hacé click o arrastrá el archivo acá</div>
         </label>
       </div>
 
       {procesando && (
-        <div style={{ background: '#E6F1FB', color: '#0C447C', padding: '10px 14px', borderRadius: 8, fontSize: 13, marginBottom: '1rem' }}>
+        <div style={{ background: 'var(--chip-azul-bg)', color: 'var(--chip-azul-tx)', padding: '10px 14px', borderRadius: 8, fontSize: 13, marginBottom: '1rem' }}>
           Procesando PDF...
         </div>
       )}
 
       {error && (
-        <div style={{ background: '#FCEBEB', color: '#501313', padding: '10px 14px', borderRadius: 8, fontSize: 13, marginBottom: '1rem' }}>{error}</div>
+        <div style={{ background: 'var(--chip-rojo-bg)', color: 'var(--chip-rojo-tx)', padding: '10px 14px', borderRadius: 8, fontSize: 13, marginBottom: '1rem' }}>{error}</div>
       )}
 
       {guardado && (
-        <div style={{ background: '#EAF3DE', color: '#27500A', padding: '10px 14px', borderRadius: 8, fontSize: 13, marginBottom: '1rem' }}>
+        <div style={{ background: 'var(--chip-verde-bg)', color: 'var(--ok)', padding: '10px 14px', borderRadius: 8, fontSize: 13, marginBottom: '1rem' }}>
           ✓ Horarios guardados para la semana del {semana}. Se activarán el lunes automáticamente.
         </div>
       )}
 
       {preview.length > 0 && (
         <>
-          <div style={{ background: '#fff', border: '0.5px solid #e0ddd4', borderRadius: 12, overflow: 'hidden', marginBottom: '1rem' }}>
-            <div style={{ padding: '10px 16px', background: '#f8f7f4', borderBottom: '0.5px solid #e0ddd4', fontSize: 13, fontWeight: 500 }}>
+          <div style={{ background: 'var(--bg-card)', border: '0.5px solid var(--borde)', borderRadius: 12, overflow: 'hidden', marginBottom: '1rem' }}>
+            <div style={{ padding: '10px 16px', background: 'var(--bg-suave)', borderBottom: '0.5px solid var(--borde)', fontSize: 13, fontWeight: 500 }}>
               Vista previa — {preview.length} asignaciones detectadas
             </div>
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 12 }}>
               <thead>
-                <tr style={{ background: '#f8f7f4' }}>
+                <tr style={{ background: 'var(--bg-suave)' }}>
                   {['Empleado', 'Horario', 'Hs/día', 'Hs/sem', 'Turno', 'Prop.'].map(h => (
-                    <th key={h} style={{ padding: '6px 10px', textAlign: 'left', color: '#73726c', fontWeight: 500, borderBottom: '0.5px solid #e0ddd4' }}>{h}</th>
+                    <th key={h} style={{ padding: '6px 10px', textAlign: 'left', color: 'var(--texto-sec)', fontWeight: 500, borderBottom: '0.5px solid var(--borde)' }}>{h}</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
                 {preview.slice(0, 30).map((r, i) => (
-                  <tr key={i} style={{ borderBottom: '0.5px solid #f0ede6' }}>
+                  <tr key={i} style={{ borderBottom: '0.5px solid var(--borde-suave)' }}>
                     <td style={{ padding: '6px 10px' }}>{r.nombre_pdf}</td>
-                    <td style={{ padding: '6px 10px', color: '#73726c' }}>{Math.floor(r.hora_inicio)}:{String(Math.round((r.hora_inicio % 1) * 60)).padStart(2, '0')}–{Math.floor(r.hora_fin % 24)}:{String(Math.round((r.hora_fin % 1) * 60)).padStart(2, '0')}</td>
+                    <td style={{ padding: '6px 10px', color: 'var(--texto-sec)' }}>{Math.floor(r.hora_inicio)}:{String(Math.round((r.hora_inicio % 1) * 60)).padStart(2, '0')}–{Math.floor(r.hora_fin % 24)}:{String(Math.round((r.hora_fin % 1) * 60)).padStart(2, '0')}</td>
                     <td style={{ padding: '6px 10px' }}>{r.horas_dia}h</td>
                     <td style={{ padding: '6px 10px' }}>{r.horas_semana}h</td>
                     <td style={{ padding: '6px 10px' }}>{TURNOS_LABEL[r.turno_principal]}</td>
@@ -195,7 +195,7 @@ export default function SubirHorarios() {
                   </tr>
                 ))}
                 {preview.length > 30 && (
-                  <tr><td colSpan={6} style={{ padding: '6px 10px', color: '#888', fontSize: 11 }}>...y {preview.length - 30} más</td></tr>
+                  <tr><td colSpan={6} style={{ padding: '6px 10px', color: 'var(--texto-ter)', fontSize: 11 }}>...y {preview.length - 30} más</td></tr>
                 )}
               </tbody>
             </table>
@@ -207,7 +207,7 @@ export default function SubirHorarios() {
               {guardando ? 'Guardando...' : 'Confirmar y guardar'}
             </button>
             <button onClick={() => { setPreview([]); setArchivo(null) }}
-              style={{ padding: '10px 16px', border: '0.5px solid #ccc', borderRadius: 8, background: 'transparent', cursor: 'pointer', fontSize: 14, fontFamily: 'inherit' }}>
+              style={{ padding: '10px 16px', border: '0.5px solid var(--borde-input)', borderRadius: 8, background: 'transparent', cursor: 'pointer', fontSize: 14, fontFamily: 'inherit' }}>
               Cancelar
             </button>
           </div>
